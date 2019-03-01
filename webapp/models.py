@@ -6,7 +6,7 @@ class RatingWebsite(models.Model):
     name = models.CharField(max_length=30, unique=True)
     url = models.URLField(unique=True)
     thumbnail = models.ImageField(upload_to='thumbnails/')
-    desciption = models.TextField()
+    description = models.TextField()
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -24,10 +24,13 @@ class Rating(models.Model):
     website = models.ForeignKey(RatingWebsite, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=0)
+
+    class Meta:
+        unique_together = ('website', 'user',)
 
     def __str__(self):
-        return self.user.first_name + ' - ' + self.website.name + ' (' + self.rating + ')'
+        return self.user.username + ' - ' + self.website.name + ' (' + str(self.rating) + ')'
 
 
 class Comment(models.Model):
@@ -37,5 +40,8 @@ class Comment(models.Model):
     title = models.CharField(max_length=30)
     text = models.TextField()
 
+    class Meta:
+        unique_together = ('website', 'user',)
+
     def __str__(self):
-        return self.user.first_name + ' - ' + self.website.name + ' (' + self.title + ')'
+        return self.user.username + ' - ' + self.website.name + ' (' + self.title + ')'
