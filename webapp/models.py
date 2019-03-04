@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from datetime import datetime
 
 class RatingWebsite(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -9,6 +10,7 @@ class RatingWebsite(models.Model):
     description = models.TextField()
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    published = models.DateTimeField(default=datetime.now)
 
     slug = models.SlugField(unique=True)
 
@@ -25,6 +27,7 @@ class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     rating = models.IntegerField(default=0)
+    published = models.DateTimeField(default=datetime.now)
 
     class Meta:
         unique_together = ('website', 'user',)
@@ -39,6 +42,7 @@ class Comment(models.Model):
 
     title = models.CharField(max_length=30)
     text = models.TextField()
+    published = models.DateTimeField(default=datetime.now)
 
     class Meta:
         unique_together = ('website', 'user',)
