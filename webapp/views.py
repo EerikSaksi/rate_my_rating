@@ -29,6 +29,7 @@ def index(request):
     #have the most ratings
     topWebsites = []
 
+
     for website in websiteRatingsDict:
 
         # get the list of ratings of the current website
@@ -49,7 +50,10 @@ def index(request):
             index = 0
             # iterate the list in ascending order, until the number of ratings at index is larger
             # than the number of ratings in currentRatingList
-            while (index < len(topWebsites) and len(websiteRatingsDict.get(topWebsites[index])) < len(currentRatingList)):
+            #websiteRatingsDict[topWebsites[index]] gives the meta info of the current topWebsite
+            #so websiteRatingsDict[topWebsites[index]][0] gives the reviews of this website
+            #so len(websiteRatingsDict[topWebsites[index]][0]) gives the number of reviews
+            while (index < len(topWebsites) and len(websiteRatingsDict[topWebsites[index]][0]) < len(currentRatingList)):
                 index += 1
 
             # if we don't have five elements insert it where it belongs, even if it is
@@ -64,19 +68,45 @@ def index(request):
                 topWebsites.pop(0)
 
 
+    #trending website is any website that is posted today
+    trendingWebsites=RatingWebsite.objects.filter(published=datetime.today())
+
+    #now lets remove the website with the least ratings until we only have 5 left
+    while (len(trendingWebsites)>5):
+        #assume the smallest to be at zero, and store the length of the list of the reviews
+        minimumIndex=0
+        minimumLength=len(trendingWebsites[0][0])
+        for i in range (1, len(trendingWebsites)):
+            #if the length of the list of reviews of this website is smaller than that of the smallest
+            if (len(websiteRatingsDict[trendingWebsites[i]][0])<minimumLength):
+                minimumLength=websiteRatingsDict[trendingWebsites[i]][0]
+                minimumIndex=i
+        trendingWebsites.pop(minimumIndex)
 
 
+
+    #We want to pass the number of reviews to the templates, and not the reviews themselves. Therefore
+    #lets convert the reviews in the dict to the number of reviews
+
+    for website in websiteRatingsDict:
+        websiteRatingsDict[website][0]=len(websiteRatingsDict[website][0])
 
     newWebsites=RatingWebsite.objects.order_by('-published')[:5]
 
-    #iterate through the websites, storing their total number of ratings and average rating
+    #iterate through the websites, storing their total number of ratings and average rating in their respective dict
     topWebsitesMeta={}
+
+    #topWebsites stores in ascending order, descending order is neeeded for them to be in correct order
+
+    topWebsites.reverse()
     for website in topWebsites:
         topWebsitesMeta[website]=websiteRatingsDict[website]
     newWebsitesMeta={}
     for website in newWebsites:
         newWebsitesMeta[website] = websiteRatingsDict[website]
-    s
+    trendingWebsitesMeta={}
+    for website in trendingWebsites:
+        trendingWebsitesMeta[website]=websiteRatingsDict[website]
 
 
     context_dict = {'topWebsites': topWebsitesMeta, 'newWebsites':newWebsitesMeta,'trendingWebsites':trendingWebsitesMeta}
