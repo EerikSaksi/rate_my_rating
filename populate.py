@@ -93,6 +93,7 @@ def populate():
          'description': 'Browse thousands of hip thrusts videos and rate them. Our videos range from total beginners to absolute beasts and the best part? You can even upload your home made hip thrust videos. So what are you waiting for? (Family friendly content only!!!)',
          'owner': 'WEBSITElover',
          'published': '2019/03/04 14:00'},
+
     ]
 
     ratings = [

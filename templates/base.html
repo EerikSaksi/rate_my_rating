@@ -5,23 +5,11 @@
         <title>
             Rate My Rating!
              {% block title_block %}
-             {% endblock % }
+             {% endblock %}
         </title>
 
         <!-- These are all the links at the top of the website -->
         <a href="{% url 'index' %}">Home</a></li>
-        <a href="{% url 'about' %}">About</a></li>
-        <a href="{% url 'all' %}">All</a></li>
-
-
-        <!-- Give users different options for signing in/out depending on if they're authenticated -->
-
-        {% if user.is_authenticated %}
-            <a href="{% url 'sign_out' %}">Sign Out</a></li>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a></li>
-            <a href="{% url 'register' %}">Register</a></li>
-
 
 
     <body>
