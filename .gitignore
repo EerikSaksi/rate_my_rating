@@ -116,4 +116,5 @@ dmypy.json
 .pyre/
 
 webapp/migrations
-media/
+media/thumbnails/*
+!media/thumbnails/placeholder.png
