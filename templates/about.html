@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+
+        <title>
+            Rate My Rating!
+             {% block title_block %}
+             {% endblock %}
+        </title>
+
+        <!-- These are all the links at the top of the website -->
+        <a href="{% url 'index' %}">Home</a></li>
+
+
+    <body>
+        <div>
+        {% block body_block %}
+        {% endblock %}
+        </div>
+   </body>
+
+</html>
