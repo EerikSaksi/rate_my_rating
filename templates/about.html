@@ -1,22 +1,16 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-<html>
+{% block title_block %}
+    About
+{% endblock %}
 
-        <title>
-            Rate My Rating!
-             {% block title_block %}
-             {% endblock %}
-        </title>
+{% block body_block %}
 
-        <!-- These are all the links at the top of the website -->
-        <a href="{% url 'index' %}">Home</a></li>
+    This is the about page
 
+    <br/>
 
-    <body>
-        <div>
-        {% block body_block %}
-        {% endblock %}
-        </div>
-   </body>
+    <img src="{% static "Secretimage.jpg" %}" alt="Secretimage"/>
 
-</html>
+{% endblock %}

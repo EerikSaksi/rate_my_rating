@@ -113,3 +113,6 @@ def index(request):
 
 
     return render(request, 'index.html', context=context_dict)
+
+def about(request):
+    return render(request, 'about.html')
