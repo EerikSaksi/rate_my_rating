@@ -3,6 +3,19 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.utils.timezone import now
 
+class UserProfile(models.Model):
+    #Basic attribute neeeded
+    user = models.OneToOneField(User)
+
+    #could be personal URLs?
+    website = models.URLField(blank=True)
+    #Not sure if we need those but provided
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+
 class RatingWebsite(models.Model):
     name = models.CharField(max_length=30, unique=True)
     url = models.URLField(unique=True)
