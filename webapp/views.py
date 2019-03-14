@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from webapp.models import RatingWebsite, Rating
-from webapp.forms import UserForm, UserProfileForm
+from webapp.forms import UserForm, UserProfileForm, WebsiteForm, RatingForm, CommentForm
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 def index(request):
@@ -21,14 +21,10 @@ def index(request):
     # websites.
     websiteRatingsDict = {}
 
-    for rating in Rating.objects.all():
-        #if the website is not inside initialize the list and the average
-        if (rating.website not in websiteRatingsDict):
-            websiteRatingsDict[rating.website]=[[],0]
-
-        #add the value of this rating ot the list
-        websiteRatingsDict[rating.website][0].append(rating.rating)
-
+    for website in RatingWebsite.objects.all():
+        websiteRatingsDict[website] = [[],0]
+        for rating in website.rating_set.all():
+             websiteRatingsDict[website][0].append(rating.rating)
 
     #this will store the website objects of at most 5 websites that are above the minimum threshold and
     #have the most ratings
@@ -42,9 +38,10 @@ def index(request):
 
         # calculate its average rating
         averageRating = 0
-        for rating in currentRatingList:
-            averageRating += rating
-        averageRating = averageRating / float(len(currentRatingList))
+        if len(currentRatingList) > 0:
+            for rating in currentRatingList:
+                averageRating += rating
+            averageRating = averageRating / float(len(currentRatingList))
 
 
         #store the average rating in the dict

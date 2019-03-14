@@ -2,10 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.utils.timezone import now
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class UserProfile(models.Model):
     #Basic attribute neeeded
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     #could be personal URLs?
     website = models.URLField(blank=True)
@@ -19,8 +20,8 @@ class UserProfile(models.Model):
 class RatingWebsite(models.Model):
     name = models.CharField(max_length=30, unique=True)
     url = models.URLField(unique=True)
-    thumbnail = models.ImageField(upload_to='thumbnails/')
-    description = models.TextField()
+    thumbnail = models.ImageField(upload_to='thumbnails/', blank=True)
+    description = models.TextField(blank=True)
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     published = models.DateTimeField(default=now)
@@ -39,7 +40,8 @@ class Rating(models.Model):
     website = models.ForeignKey(RatingWebsite, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    rating = models.IntegerField(default=0)
+    SCORE_CHOICES = zip(range(0,6), range(0,6))
+    rating = models.IntegerField(choices=SCORE_CHOICES, default=0, validators=[MaxValueValidator(5), MinValueValidator(0)])
     published = models.DateTimeField(default=now)
 
     class Meta:

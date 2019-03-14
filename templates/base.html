@@ -23,42 +23,41 @@
 
     </title>
 
-    <!--Using some bootstrap style deploy NavBar-->
-    <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
-
-        <!--Home page button-->
-        <a class="navbar-brand" href="{% url 'index' %}">Rate my Rating</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-
-            <!--clickable buttons with login status check-->
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
-                <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
-                {% if user.is_authenticated %}
-                    <a class="nav-item nav-link" href="{% url 'restricted' %}">Restricted Page</a></li>
-                    <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                    <a class="nav-item nav-link" href="{% url 'login' %}">Sign In</a></li>
-                    <a class="nav-item nav-link" href="{% url 'register' %}">Sign Up</a></li>
-                {% endif %}
-            </div>
-
-            <!--Search Box(Doesn't work now)-->
-            <div>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
-
-        </div>
-    </nav>
-
-
     <body>
+        <!--Using some bootstrap style deploy NavBar-->
+        <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
+
+            <!--Home page button-->
+            <a class="navbar-brand" href="{% url 'index' %}">Rate my Rating</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+                <!--clickable buttons with login status check-->
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
+                    <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+                    {% if user.is_authenticated %}
+                        <a class="nav-item nav-link" href="{% url 'restricted' %}">Restricted Page</a></li>
+                        <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Sign In</a></li>
+                        <a class="nav-item nav-link" href="{% url 'register' %}">Sign Up</a></li>
+                    {% endif %}
+                </div>
+
+                <!--Search Box(Doesn't work now)-->
+                <div>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+
+            </div>
+        </nav>
+
         <div>
         {% block body_block %}
         {% endblock %}
