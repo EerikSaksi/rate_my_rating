@@ -248,13 +248,16 @@ def website_detail(request, website_slug):
     website = RatingWebsite.objects.get(slug=website_slug)
     ratings = Rating.objects.filter(website=website).order_by('-published')[:5]
 
-    # try to get the instance of user's rating for this website
-    try:
-        current_rating = instance=Rating.objects.get(user=request.user, website=website)
-    except Rating.DoesNotExist:
-        current_rating = None
+    logged_in = request.user.is_authenticated
 
-    if request.method == 'POST':
+    if logged_in:
+        # try to get the instance of user's rating for this website
+        try:
+            current_rating = instance=Rating.objects.get(user=request.user, website=website)
+        except Rating.DoesNotExist:
+            current_rating = None
+
+    if request.method == 'POST' and logged_in:
         form = RatingForm(request.POST, instance=current_rating)
         if form.is_valid():
             rating = form.save(commit=False)
@@ -268,8 +271,10 @@ def website_detail(request, website_slug):
                 messages.error(request, 'You cannot rate your own website.')
 
             return redirect('website_detail', website_slug)
-    else:
+    elif logged_in:
         form = RatingForm(instance=current_rating)
+    else:
+        form = None
 
     return render(request, 'website_details.html', {'website': website, 'ratings': ratings, 'form': form})
 

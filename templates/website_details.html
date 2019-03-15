@@ -28,11 +28,15 @@
             <h3>Average rating<h3>
             <h4>{{ website.average_rating }}/5</h4>
             
+            {% if form %}
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <button class="btn btn-primary" type="submit">Rate</button>
             </form>
+            {% else %}
+            <div>You have to be logged in to rate websites.</div>
+            {% endif %}
 
             {% if ratings %}
             <h4>Latest ratings:</h4>
