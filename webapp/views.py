@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from webapp.models import RatingWebsite, Rating
+from webapp.models import RatingWebsite, Rating, Comment
 from webapp.forms import UserForm, UserProfileForm, WebsiteForm, RatingForm, CommentForm, UserEditForm
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
@@ -250,6 +250,7 @@ def show_websites(request):
 def website_detail(request, website_slug):
     website = RatingWebsite.objects.get(slug=website_slug)
     ratings = Rating.objects.filter(website=website).order_by('-published')[:5]
+    comments = Comment.objects.filter(website=website).order_by('-published')
 
     logged_in = request.user.is_authenticated
 
@@ -261,9 +262,9 @@ def website_detail(request, website_slug):
             current_rating = None
 
     if request.method == 'POST' and logged_in:
-        form = RatingForm(request.POST, instance=current_rating)
-        if form.is_valid():
-            rating = form.save(commit=False)
+        rating_form = RatingForm(request.POST, instance=current_rating)
+        if rating_form.is_valid():
+            rating = rating_form.save(commit=False)
             rating.user = request.user
             rating.website = website
 
@@ -274,12 +275,28 @@ def website_detail(request, website_slug):
                 messages.error(request, 'You cannot rate your own website.')
 
             return redirect('website_detail', website_slug)
-    elif logged_in:
-        form = RatingForm(instance=current_rating)
-    else:
-        form = None
 
-    return render(request, 'website_details.html', {'website': website, 'ratings': ratings, 'form': form})
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.user = request.user
+            comment.website = website
+
+            comment.save()
+            messages.success(request, 'Comment saved.')
+            return redirect('website_detail', website_slug)
+    elif logged_in:
+        rating_form = RatingForm(instance=current_rating)
+        comment_form = CommentForm()
+    else:
+        rating_form = None
+        comment_form = None
+
+    # load comments for the website
+
+
+    return render(request, 'website_details.html', {'website': website, 'ratings': ratings, 'comments': comments,
+                                                    'rating_form': rating_form, 'comment_form': comment_form})
 
 @login_required
 def website_edit(request, website_slug):

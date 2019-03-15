@@ -28,10 +28,10 @@
             <h3>Average rating<h3>
             <h4>{{ website.average_rating }}/5</h4>
             
-            {% if form %}
+            {% if rating_form %}
             <form method="post">
                 {% csrf_token %}
-                {{ form|crispy }}
+                {{ rating_form|crispy }}
                 <button class="btn btn-primary" type="submit">Rate</button>
             </form>
             {% else %}
@@ -52,4 +52,29 @@
             {% endif %}
         </div>
     </div>
+    <div class="row">
+        {% if comment_form %}
+        <h4>Post comment:</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form|crispy }}
+            <button class="btn btn-primary" type="submit">Post comment</button>
+        </form>
+        {% else %}
+        <div>You have to be logged in to comment.</div>
+        {% endif %}
+    </div>
+
+    {% if comments %}
+    <h4>Comments:</h4>
+    {% for comment in comments %}
+        <div class="card row">
+            <h5>{{ comment.title }}</h5>
+            <p>{{ comment.text }}</p>
+            <p>Published on: {{ comment.published }} by {{ comment.user }}</p>
+        </div>
+    {% endfor %}
+    {% else %}
+        <h4>No comments so far. Be the first one!</h4>
+    {% endif %}
 {% endblock %}
