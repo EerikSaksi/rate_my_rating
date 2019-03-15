@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from webapp.models import RatingWebsite, Rating
-from webapp.forms import UserForm, UserProfileForm, WebsiteForm, RatingForm, CommentForm
+from webapp.forms import UserForm, UserProfileForm, WebsiteForm, RatingForm, CommentForm, UserEditForm
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -206,16 +206,19 @@ def my_account_edit(request):
             messages.success(request, 'Your password was successfully updated!')
             return redirect('my_account_edit')
 
+        user_form = UserEditForm(request.POST, instance=request.user)
         profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
-        if profile_form.is_valid():
+        if profile_form.is_valid() and user_form.is_valid():
             profile_form.save()
+            user_form.save()
             messages.success(request, 'Account details successfully updated!')
             return redirect('my_account_edit')
             
     else:
         password_form = PasswordChangeForm(request.user)
         profile_form = UserProfileForm(instance=profile)
-    return render(request, 'my-account-edit.html', {'password_form': password_form, 'profile_form': profile_form})
+        user_form = UserEditForm(instance=request.user)
+    return render(request, 'my-account-edit.html', {'password_form': password_form, 'profile_form': profile_form, 'user_form': user_form})
 
 @login_required
 def my_account_upload(request):

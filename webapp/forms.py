@@ -5,7 +5,12 @@ from webapp.models import UserProfile, RatingWebsite, Rating, Comment
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('username','password')
+        fields = ('username','password', 'email', 'first_name', 'last_name',)
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name',)
 
 class UserProfileForm(forms.ModelForm):
     website = forms.URLField(label='Personal website', required=False)

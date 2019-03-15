@@ -22,5 +22,8 @@
         <!-- Provide a button to click to submit the form. -->
         <input type="submit" name="submit" value="Sign up" />
     </form>
+    <br>
+    <p><strong>-- OR --</strong></p>
+    <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
     {% endif %}
 {% endblock %}

@@ -38,7 +38,11 @@
         </div>
         <div class="col-4">
             <h1>My account</h1>
-            <img height="250px" src="{{ current_user.userprofile.picture.url }}" alt="Profile Picture"/>
+            {% if current_user.userprofile.picture %}
+                <img height="250px" src="{{ current_user.userprofile.picture.url }}" alt="Profile Picture"/>
+            {% else %}
+                <img height="250px" src="https://dummyimage.com/600x400/ffffff/727596.png&text=No+profile+picture+available" alt="No profile picture available"/>
+            {% endif %}
             <h2>{{ current_user.username }}</h2>
             <h4># of contributions: {{ num_websites }}<h4>
             <a href="{% url 'my_account_edit' %}">Edit account</a>

@@ -16,6 +16,10 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+# method called if the User is created though Google authentication
+def create_profile(backend, user, response, *args, **kwargs):
+    profile = UserProfile(user=user)
+    profile.save()
 
 class RatingWebsite(models.Model):
     name = models.CharField(max_length=30, unique=True)

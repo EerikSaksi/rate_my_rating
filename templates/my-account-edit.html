@@ -20,6 +20,7 @@
             <h2>Change account details</h2>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                {{ user_form|crispy }}
                 {{ profile_form|crispy }}
                 <button class="btn btn-primary" type="submit">Update account details</button>
             </form>
