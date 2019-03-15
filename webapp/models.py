@@ -35,6 +35,16 @@ class RatingWebsite(models.Model):
     def __str__(self):
         return self.name
 
+    def average_rating(self):
+        avg_rating = 0
+        ratings = self.rating_set.all()
+        if len(ratings) > 0:
+            for rating in ratings:
+                avg_rating += rating.rating
+            avg_rating /= float(len(ratings))
+
+        return avg_rating
+
 
 class Rating(models.Model):
     website = models.ForeignKey(RatingWebsite, on_delete=models.CASCADE)

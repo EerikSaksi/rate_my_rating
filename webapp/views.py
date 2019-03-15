@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from webapp.models import RatingWebsite, Rating
 from webapp.forms import UserForm, UserProfileForm, WebsiteForm, RatingForm, CommentForm
 from datetime import datetime
@@ -6,6 +6,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from webapp.models import UserProfile
 
 def index(request):
     # arbitrary value for how how many likes you have to have to get to trending, otherwise trending is new
@@ -168,10 +172,119 @@ def user_login(request):
 		return render(request, 'login.html', {})
 
 @login_required
-def restricted(request):
-    return HttpResponse("You're logged in!")
-
-@login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+@login_required
+def my_account(request):
+    current_user = request.user
+    context_dict = {'current_user': current_user}
+
+    average_rating = 0.0
+    websites = current_user.ratingwebsite_set.all().order_by('-published')
+    num_websites = len(websites)
+    if num_websites > 0:
+        for website in websites:
+            average_rating += website.average_rating()
+        average_rating /= len(websites)
+    context_dict['average_rating'] = average_rating
+    context_dict['websites'] = websites
+    context_dict['num_websites'] = num_websites
+
+    return render(request, 'my-account.html', context_dict)
+
+@login_required
+def my_account_edit(request):
+    profile = get_object_or_404(UserProfile, user=request.user)
+
+    if request.method == 'POST':
+        password_form = PasswordChangeForm(request.user, request.POST)
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('my_account_edit')
+
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Account details successfully updated!')
+            return redirect('my_account_edit')
+            
+    else:
+        password_form = PasswordChangeForm(request.user)
+        profile_form = UserProfileForm(instance=profile)
+    return render(request, 'my-account-edit.html', {'password_form': password_form, 'profile_form': profile_form})
+
+@login_required
+def my_account_upload(request):
+    if request.method == 'POST':
+        form = WebsiteForm(request.POST, request.FILES)
+        if form.is_valid():
+            website = form.save(commit=False)
+            website.owner = request.user
+            website.save()
+
+            messages.success(request, 'Website successfully uploaded.')
+            return redirect('my_account')
+    else:
+        form = WebsiteForm()
+    return render(request, 'my-account-upload.html', {'form': form})
+
+def show_websites(request):
+    search = request.GET.get('search', '')
+    if search == '':
+        websites = RatingWebsite.objects.all()
+    else:
+        websites = RatingWebsite.objects.filter(name__contains=search)
+
+    # sort websites by average rating
+    websites = sorted(websites, key=lambda t: -t.average_rating())
+
+    return render(request, 'websites.html', {'websites': websites})
+
+def website_detail(request, website_slug):
+    website = RatingWebsite.objects.get(slug=website_slug)
+    ratings = Rating.objects.filter(website=website).order_by('-published')[:5]
+
+    # try to get the instance of user's rating for this website
+    try:
+        current_rating = instance=Rating.objects.get(user=request.user, website=website)
+    except Rating.DoesNotExist:
+        current_rating = None
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST, instance=current_rating)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.user = request.user
+            rating.website = website
+
+            if rating.user != rating.website.owner:
+                rating.save()
+                messages.success(request, 'Rating saved.')
+            else:
+                messages.error(request, 'You cannot rate your own website.')
+
+            return redirect('website_detail', website_slug)
+    else:
+        form = RatingForm(instance=current_rating)
+
+    return render(request, 'website_details.html', {'website': website, 'ratings': ratings, 'form': form})
+
+@login_required
+def website_edit(request, website_slug):
+    website = get_object_or_404(RatingWebsite, slug=website_slug, owner=request.user)
+
+    if request.method == 'POST':
+        form = WebsiteForm(request.POST, request.FILES, instance=website)
+        if form.is_valid():
+            rating = form.save()
+            messages.success(request, 'Website updated')
+
+            return redirect('website_edit', website_slug)
+    else:
+        form = WebsiteForm(instance=website)
+
+    return render(request, 'website_edit.html', {'website': website, 'form': form})

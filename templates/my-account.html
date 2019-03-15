@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    My Account
+{% endblock %}
+
+{% block body_block %}
+    <div class="row">
+        <div class="col-8">
+            <h2>Overall average rating</h2>
+            <h2>{{ average_rating }}/5</h2>
+            {% for website in websites %}
+            <div class="card">
+                <div class="row">
+                    <div class="col-6">
+                        <table>
+                            <tr><td>Website:</td><td>{{ website.name }}</td></tr>
+                            <tr><td>Description:</td><td>{{ website.description }}</td></tr>
+                            <tr><td>Rating:</td><td>{{ website.average_rating }}</td></tr>
+                            <tr><td>Uploaded on:</td><td>{{ website.published }}</td></tr>
+                            <tr>
+                                <td><a href="{% url 'website_detail' website.slug %}">Website detail</a></td>
+                                <td><a href="{% url 'website_edit' website.slug %}">Edit website</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-6">
+                        {% if website.thumbnail%}
+                            <img height="150px" src="{{ website.thumbnail.url }}" alt="Webstie thumbnail"/>
+                        {% else %}
+                            <img height="150px" src="https://dummyimage.com/600x400/ffffff/727596.png&text=No+thumbnail+available" alt="No thumbnail available"/>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            <h1>My account</h1>
+            <img height="250px" src="{{ current_user.userprofile.picture.url }}" alt="Profile Picture"/>
+            <h2>{{ current_user.username }}</h2>
+            <h4># of contributions: {{ num_websites }}<h4>
+            <a href="{% url 'my_account_edit' %}">Edit account</a>
+            <a class="btn btn-primary" href="{% url 'my_account_upload' %}">Upload new website</a>
+        </div>
+    </div>
+{% endblock %}

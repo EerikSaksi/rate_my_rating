@@ -4,7 +4,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
 
 import django
 django.setup()
-from webapp.models import RatingWebsite, Rating, Comment
+from webapp.models import RatingWebsite, Rating, Comment, UserProfile
 from django.contrib.auth.models import User
 from django.utils.timezone import get_current_timezone
 from datetime import datetime
@@ -15,6 +15,9 @@ def add_user(username, email, password):
     u.password = password
 
     u.save()
+    
+    up = UserProfile.objects.get_or_create(user=u)[0]
+    up.save()
     return u
 
 def add_website(name, url, description, owner, published='', thumbnail=''):

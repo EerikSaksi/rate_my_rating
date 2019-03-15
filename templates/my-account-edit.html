@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+    Edit Account
+{% endblock %}
+
+{% block body_block %}
+    <div class="row">
+        <div class="col-5">
+            <h2>Change password</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ password_form|crispy }}
+                <button class="btn btn-primary" type="submit">Change password</button>
+            </form>
+        </div>
+        <div class="col-5 offset-2">
+            <h2>Change account details</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ profile_form|crispy }}
+                <button class="btn btn-primary" type="submit">Update account details</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -118,3 +118,4 @@ dmypy.json
 webapp/migrations
 media/thumbnails/*
 !media/thumbnails/placeholder.png
+media/profile_images/*

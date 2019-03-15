@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Websites
+{% endblock %}
+
+{% block body_block %}
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Average rating</th>
+            <th>Owner</th>
+            <th>Published on</th>
+        <tr>
+        {% for website in websites %}
+        <tr>
+            <td><a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a></td>
+            <td>{{ website.average_rating }}</td>
+            <td>{{ website.owner.username }}</td>
+            <td>{{ website.published }}</td>
+        <tr>
+        {% endfor %}
+    <table>
+{% endblock %}

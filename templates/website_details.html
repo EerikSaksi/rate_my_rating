@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+    {{ website.name }}
+{% endblock %}
+
+{% block body_block %}
+    <div class="row">
+        <div class="col-6">
+            <h2>{{ website.name }}</h2>
+            <h4><a href="{{ website.url }}">{{ website.url }}</a></h4>
+            <p><strong>Description:</strong></p>
+            <p>{{ website.description }}</p>
+            <p><strong>Published on:</strong></p>
+            <p>{{ website.published }}</p>
+            <p><strong>Thumbnail:</strong></p>
+            <p>
+            {% if website.thumbnail%}
+                <img height="100%" src="{{ website.thumbnail.url }}" alt="Webstie thumbnail"/>
+            {% else %}
+                <img height="100%" src="https://dummyimage.com/600x400/ffffff/727596.png&text=No+thumbnail+available" alt="No thumbnail available"/>
+            {% endif %}
+            </p>
+        </div>
+        <div class="col-6">
+            <h3>Average rating<h3>
+            <h4>{{ website.average_rating }}/5</h4>
+            
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="btn btn-primary" type="submit">Rate</button>
+            </form>
+
+            {% if ratings %}
+            <h4>Latest ratings:</h4>
+            {% for rating in ratings %}
+                <div class="card">
+                    Rating: {{ rating.rating }}
+                    <br>
+                    User: {{ rating.user }}
+                </div>
+            {% endfor %}
+            {% else %}
+                <h4>No ratings so far. Be the first to rate this website!</h4>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
