@@ -2,7 +2,7 @@
 
 
 <html>
-{% extends 'base.html' %}
+{% extends 'webapp/base.html' %}
     {% block title_block %}
         Home
     {% endblock %}
@@ -13,9 +13,9 @@
 
         Top Websites
         <br>
-        {% for website, websiteInfo in topWebsites.items %}
+        {% for website in top_websites %}
             Name:
-            {{ website.name }}
+            <a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a>
             <br>
 
             Url:
@@ -26,11 +26,11 @@
             Date Posted:
             {{ website.published }}
             Number of ratings:
-            {{ websiteInfo.0 }}
+            {{ website.rating_set.count }}
             <br>
 
             Average rating:
-            {{ websiteInfo.1 }}
+            {{ website.average_rating }}
             <br>
             <br>
         {% endfor %}
@@ -41,9 +41,9 @@
 
         Trending websites
         <br>
-        {% for website, websiteInfo in trendingWebsites.items %}
+        {% for website in trending_websites %}
             Name:
-            {{ website.name }}
+            <a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a>
             <br>
 
             Url:
@@ -54,11 +54,11 @@
             Date Posted:
             {{ website.published }}
             Number of ratings:
-            {{ websiteInfo.0 }}
+            {{ website.rating_set.count }}
             <br>
 
             Average rating:
-            {{ websiteInfo.1 }}
+            {{ website.average_rating }}
             <br>
             <br>
         {% endfor %}
@@ -69,9 +69,9 @@
 
         New websites
         <br>
-        {% for website, websiteInfo in newWebsites.items %}
+        {% for website in new_websites %}
             Name:
-            {{ website.name }}
+            <a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a>
             <br>
 
             Url:
@@ -82,11 +82,11 @@
             Date Posted:
             {{ website.published }}
             Number of ratings:
-            {{ websiteInfo.0 }}
+            {{ website.rating_set.count }}
             <br>
 
             Average rating:
-            {{ websiteInfo.1 }}
+            {{ website.average_rating }}
             <br>
             <br>
         {% endfor %}

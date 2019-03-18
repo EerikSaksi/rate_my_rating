@@ -8,18 +8,18 @@ class UserProfile(models.Model):
     #Basic attribute neeeded
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    #could be personal URLs?
     website = models.URLField(blank=True)
-    #Not sure if we need those but provided
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __str__(self):
         return self.user.username
 
+
 # method called if the User is created though Google authentication
 def create_profile(backend, user, response, *args, **kwargs):
-    profile = UserProfile(user=user)
+    profile = UserProfile.objects.get_or_create(user=user)[0]
     profile.save()
+
 
 class RatingWebsite(models.Model):
     name = models.CharField(max_length=30, unique=True)

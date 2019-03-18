@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'webapp/base.html' %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
@@ -8,22 +8,16 @@
 
 {% block body_block %}
     <h1>Register for Rate my Rating</h1>
-    {% if registered %}
-        <strong>Plase Sign in</strong>
-        <a href="{% url 'index' %}">Return to the homepage.</a><br />
-    {% else %}
-        <strong>Sign up</strong><br />
-        <form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
-
+    <strong>Sign up</strong><br />
+    <form method="post" action="{% url 'register' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <!-- Display each form -->
         {{ user_form|crispy }}
         {{ profile_form|crispy }}
         <!-- Provide a button to click to submit the form. -->
-        <input type="submit" name="submit" value="Sign up" />
+        <input type="submit" value="Sign up" />
     </form>
     <br>
     <p><strong>-- OR --</strong></p>
     <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
-    {% endif %}
 {% endblock %}
