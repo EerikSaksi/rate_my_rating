@@ -1,28 +1,36 @@
-# rate_my_rating
-WAD2 project
-2019/2/27 First Group chat
-2019/3/1 oof
-2019/3/12
-......................BlessRNG........................
 
-                       _oo0oo_
-                      o8888888o
-                      88" . "88
-                      (| -_- |)
-                      0\  =  /0
-                    ___/`---'\___
-                  .' \\|     |// '.
-                 / \\|||  :  |||// \
-                / _||||| -卍-|||||- \
-               |   | \\\  -  /// |   |
-               | \_|  ''\---/''  |_/ |
-               \  .-\__  '-'  ___/-. /
-             ___'. .'  /--.--\  `. .'___
-          ."" '<  `.___\_<|>_/___.' >' "".
-         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-         \  \ `_.   \_ __\ /__ _/   .-` /  /
-     =====`-.____`.___ \_____/___.-`___.-'=====
-                       `=---='
-   -卍-卍-卍-卍-卍-卍-卍-卍-卍-卍-卍-卍-卍-卍-卍-卍-卍-
+# Rate my rating
+Group project for WAD2
 
-......................NO BUGS.........................
+## Team info
+Lab group 12
+
+Team E
+
+### Team members
+
+- Haowen Li
+- Eerik Saksi
+- David Jasek
+- Mahmood Khalil
+
+## External resources
+### Bootstrap 4
+Used for design in the templates.
+
+https://getbootstrap.com/
+
+### JQuery
+Used to simplify work with JavaScript and allow all Bootstrap features.
+
+https://jquery.com/
+
+### Django Crispy Forms
+Used for the form design inside templates.
+
+https://pypi.org/project/django-crispy-forms/
+
+### Python Social Auth
+Used for Google login API integration.
+
+https://pypi.org/project/social-auth-app-django/
