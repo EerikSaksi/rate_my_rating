@@ -7,10 +7,34 @@
 
 {% block body_block %}
 
-    This is the about page
+    <div class="aboutContainer">
 
-    <br/>
+        <div class="aboutHeading" onclick="onClick()">
+            Everything About Rate my Rating
+        </div>
 
-    <img src="{% static "Secretimage.jpg" %}" alt="Secretimage"/>
+        <div class="whatDoWeDo">
+            Our goal in this web application is to allow users to upload and rate websites with ratings on them.
+            For example, a website that allowed users to rate books and compare them with other books would be suitable to upload on to our webapp, users could then rate this website and comment on it.
+            A link to a website without any sort of ratings would not be suitable to be uploaded.
+        </div>
+
+        <div class="photo" id="displayOnClick" style="display:none">
+            <img id="MrPresident"src="{% static "Secretimage.jpg" %}" alt="Secretimage"/>
+        </div>
+
+        <div class="description">
+            Users should be able to create, access, edit and delete their account.
+            All users should be able to search for rating websites and see their submission’s ratings.
+            Logged users should be able to rate existing rating websites.
+            Logged users should be able to upload their rating website for others to rate and later edit their submission.
+            Users that uploaded a website should not be able to rate their own website.
+            Any one should be able to browse top rated websites.
+            Any one should be able to search the website or topic for a link to a rating website in which they are interested.
+            Logged users should be able to comment on uploaded submissions.
+
+        </div>
+
+    </div>
 
 {% endblock %}
