@@ -3,25 +3,31 @@
     flex-flow: row wrap;
     justify-content: space-around;
 }
+
 .aboutContainer > * {
     padding: 10px;
 }
+
 .aboutHeading{
     color: #003366;
     font-size: 45px;
 }
+
 .whatDoWeDo{
     text-align: left;
     margin: 20px;
 }
+
 .description{
     text-align: center;
     margin: 20px;
 }
+
 #MrPresident{
     width: 100%;
     height: 100%;
 }
+
 .photo{
     display: flex;
     flex-direction: row;
@@ -29,3 +35,30 @@
     margin-left: 20px;
     margin-right: 20px;
 }
+
+.rating-stars ul {
+    list-style-type: none;
+    padding: 0;
+  
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.rating-stars li.star {
+    display: inline-block;
+    cursor: pointer;
+}
+  
+.rating-stars li.star > i.fa {
+    font-size: 2.5em;
+    color: #ccc;
+}
+  
+.rating-stars li.star.hover > i.fa {
+    color: #ffcc36;
+}
+  
+.rating-stars li.star.selected > i.fa {
+    color: #ff912c;
+}
+  
