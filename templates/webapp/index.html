@@ -11,85 +11,95 @@
 
     {% block body_block %}
 
-        Top Websites
+        <div class="btn-group btn-group-lg" role="group" aria-label="slecter">
+            <button type="button" class="btn btn-secondary">Top</button>
+            <button type="button" class="btn btn-secondary">Trending</button>
+            <button type="button" class="btn btn-secondary">New</button>
+        </div>
+
+        <h3 class="indexTitle">Top Websites</h3>
+
+        <div class="Top">
+
+            {% for website in top_websites %}
+            <div class="card shadow" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{ website.published }}
+                    </h6>
+                    <p class="card-text">
+                        Number of ratings:
+                        {{ website.rating_set.count }}
+                        </br>
+                        Average rating:
+                        {{ website.average_rating }}
+                    </p>
+                    <a href="{{ website.url }}" class="btn btn-primary">Go to website</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+            <br>
+
+        <h3 class="indexTitle">Trending websites</h3>
+
+        <div class="Trending">
+
+            {% for website in trending_websites %}
+            <div class="card shadow" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{ website.published }}
+                    </h6>
+                    <p class="card-text">
+                        Number of ratings:
+                        {{ website.rating_set.count }}
+                        </br>
+                        Average rating:
+                        {{ website.average_rating }}
+                    </p>
+                    <a href="{{ website.url }}" class="btn btn-primary">Go to website</a>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
         <br>
-        {% for website in top_websites %}
-            Name:
-            <a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a>
-            <br>
 
-            Url:
-            {{ website.url }}
-            <br>
+        <h3 class="indexTitle">New websites</h3>
 
+        <div class="New">
 
-            Date Posted:
-            {{ website.published }}
-            Number of ratings:
-            {{ website.rating_set.count }}
-            <br>
+            {% for website in new_websites %}
+            <div class="card shadow" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{ website.published }}
+                    </h6>
+                    <p class="card-text">
+                        Number of ratings:
+                        {{ website.rating_set.count }}
+                        </br>
+                        Average rating:
+                        {{ website.average_rating }}
+                    </p>
+                    <a href="{{ website.url }}" class="btn btn-primary">Go to website</a>
+                </div>
+            </div>
+            {% endfor %}
 
-            Average rating:
-            {{ website.average_rating }}
-            <br>
-            <br>
-        {% endfor %}
-
-            <br>
-            <br>
-
-
-        Trending websites
-        <br>
-        {% for website in trending_websites %}
-            Name:
-            <a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a>
-            <br>
-
-            Url:
-            {{ website.url }}
-            <br>
-
-
-            Date Posted:
-            {{ website.published }}
-            Number of ratings:
-            {{ website.rating_set.count }}
-            <br>
-
-            Average rating:
-            {{ website.average_rating }}
-            <br>
-            <br>
-        {% endfor %}
-        <br>
-        <br>
-
-
-
-        New websites
-        <br>
-        {% for website in new_websites %}
-            Name:
-            <a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a>
-            <br>
-
-            Url:
-            {{ website.url }}
-            <br>
-
-
-            Date Posted:
-            {{ website.published }}
-            Number of ratings:
-            {{ website.rating_set.count }}
-            <br>
-
-            Average rating:
-            {{ website.average_rating }}
-            <br>
-            <br>
-        {% endfor %}
+        </div>
 
     {% endblock %}
 
