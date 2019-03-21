@@ -3,7 +3,12 @@
     flex-flow: row wrap;
     justify-content: space-around;
 }
-
+.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
+    content: " \25B4\25BE"
+}
+.sortable{
+     border-spacing: 30px;
+}
 .aboutContainer > * {
     padding: 1%;
 }
@@ -36,7 +41,7 @@
     margin-right: 1%;
 }
 
-.rating-stars ul {
+.rating-strs ul {
     list-style-type: none;
     padding: 0;
 

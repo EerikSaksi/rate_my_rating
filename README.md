@@ -39,3 +39,9 @@ https://pypi.org/project/django-crispy-forms/
 Used for Google login API integration.
 
 https://pypi.org/project/social-auth-app-django/
+
+
+### Sorttable 
+Used to allow users to sort by their chosen category on all websites
+
+https://www.kryogenix.org/code/browser/sorttable/

@@ -6,20 +6,26 @@
 {% endblock %}
 
 {% block body_block %}
-    <table class="table">
-        <tr>
-            <th>Name</th>
-            <th>Average rating</th>
-            <th>Owner</th>
-            <th>Published on</th>
+
+        <table class="sortable table">
+        <th>Name</th>
+        <th>Average rating</th>
+        <th>Owner</th>
+        <th>Publishing date</th>
         <tr>
         {% for website in websites %}
         <tr>
             <td><a href="{% url 'website_detail' website.slug %}">{{ website.name }}</a></td>
             <td>{{ website.average_rating }}</td>
             <td>{{ website.owner.username }}</td>
-            <td>{{ website.published }}</td>
+            <td sorttable_customkey={{ website.published|date:"YmdHi" }} >{{ website.published }}</td>
+
         <tr>
         {% endfor %}
-    <table>
+    </table>
+
+{% endblock %}
+
+{% block script_block %}
+   <script src="sorttable.js"></script>
 {% endblock %}
