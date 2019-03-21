@@ -7,14 +7,18 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Login to Rate my rating</h1>
+<h1 id="Title">Login to Rate my rating</h1>
+<div class="signInUp">
     <strong>Login</strong><br />
-    <form method="post" action="{% url 'login' %}">
+    <form id="information" method="post" action="{% url 'login' %}">
         {% csrf_token %}
         {{ form|crispy }}
-        <input type="submit" value="Login" />
+        <div style="text-align: center">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
     </form>
     <br>
     <p><strong>-- OR --</strong></p>
     <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+</div>
 {% endblock %}
