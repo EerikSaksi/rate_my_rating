@@ -20,14 +20,18 @@
         <strong>Something went wrong.</strong> The rating could not been updated.
     </div>
 
-    <div class="row">
-        <div class="col-6">
+    <div class="row pt-4">
+        <div class="col-lg-8 col-12">
             <h2>{{ website.name }}</h2>
-            <h4><a href="{{ website.url }}">{{ website.url }}</a></h4>
-            <p><strong>Description:</strong></p>
-            <p>{{ website.description }}</p>
-            <p><strong>Published on:</strong></p>
-            <p>{{ website.published }}</p>
+            <h5><a href="{{ website.url }}">{{ website.url }}</a></h5>
+            <p>
+                <strong>Description:</strong><br>
+                {{ website.description }}
+            </p>
+            <p>
+                <strong>Published on:</strong><br>
+                {{ website.published }}
+            </p>
             <p><strong>Thumbnail:</strong></p>
             <p>
             {% if website.thumbnail%}
@@ -37,34 +41,37 @@
             {% endif %}
             </p>
         </div>
-        <div class="col-6">
-            <h3>Average rating<h3>
-            <h4><span id="average_rating">{{ website.average_rating }}</span>/5</h4>
-            
-            {% if user.is_authenticated and user == website.owner %}
-            <div>You cannot rate your own website.</div>
-            {% elif user.is_authenticated %}
-            <div class='rating-stars text-center'>
-                <ul id='stars'>
-                    <li class='star' title='Terrible' data-value='1'><i class='fa fa-star fa-fw'></i></li>
-                    <li class='star' title='Bad' data-value='2'><i class='fa fa-star fa-fw'></i></li>
-                    <li class='star' title='Average' data-value='3'><i class='fa fa-star fa-fw'></i></li>
-                    <li class='star' title='Good' data-value='4'><i class='fa fa-star fa-fw'></i></li>
-                    <li class='star' title='Excellent' data-value='5'><i class='fa fa-star fa-fw'></i></li>
-                </ul>
-            </div>  
-            {% else %}
-            <div>You have to be logged in to rate websites.</div>
-            {% endif %}
+        <div class="col-lg-4 col-12">
+            <div class="card shadow-sm p-4 text-center">
+                <h3>Average rating<h3>
+                <h4><span id="average_rating">{{ website.average_rating }}</span>/5</h4>
+                <br>
+                
+                {% if user.is_authenticated and user == website.owner %}
+                <div>You cannot rate your own website.</div>
+                {% elif user.is_authenticated %}
+                <div class='rating-stars text-center'>
+                    <ul id='stars'>
+                        <li class='star' title='Terrible' data-value='1'><i class='fa fa-star fa-fw'></i></li>
+                        <li class='star' title='Bad' data-value='2'><i class='fa fa-star fa-fw'></i></li>
+                        <li class='star' title='Average' data-value='3'><i class='fa fa-star fa-fw'></i></li>
+                        <li class='star' title='Good' data-value='4'><i class='fa fa-star fa-fw'></i></li>
+                        <li class='star' title='Excellent' data-value='5'><i class='fa fa-star fa-fw'></i></li>
+                    </ul>
+                </div>  
+                {% else %}
+                <div>You have to be logged in to rate websites.</div>
+                {% endif %}
+            </div>
 
             {% if ratings %}
             <h4>Latest ratings:</h4>
             <div id="latest_ratings">
                 {% for rating in ratings %}
-                    <div class="card">
-                        Rating: {{ rating.rating }}
-                        <br>
-                        User: {{ rating.user }}
+                    <div class="card shadow-sm p-2 d-inline-block col-12 text-center">
+                        <h5>{{ rating.rating }} <i class='inline-star fa fa-star fa-fw'></i>
+                        <span class="text-secondary"> by {{ rating.user }}</span>
+                        </h5>
                     </div>
                 {% endfor %}
                 {% else %}
@@ -73,31 +80,37 @@
             </div>
         </div>
     </div>
+
     <div class="row">
-        {% if comment_form %}
-        <h4>Post comment:</h4>
-        <form method="post">
-            {% csrf_token %}
-            {{ comment_form|crispy }}
-            <button class="btn btn-primary" type="submit">Post comment</button>
-        </form>
+        {% if comments %}
+        <h4>Comments:</h4>
+        {% for comment in comments %}
+            <div class="card col-12 shadow-sm p-2">
+                <h5>{{ comment.title }}</h5>
+                <p>{{ comment.text }}</p>
+                <p class="text-secondary text-right">Published on: {{ comment.published }} by {{ comment.user }}</p>
+            </div>
+        {% endfor %}
         {% else %}
-        <div>You have to be logged in to comment.</div>
+            <h4>No comments so far. Be the first one!</h4>
         {% endif %}
     </div>
 
-    {% if comments %}
-    <h4>Comments:</h4>
-    {% for comment in comments %}
-        <div class="card row">
-            <h5>{{ comment.title }}</h5>
-            <p>{{ comment.text }}</p>
-            <p>Published on: {{ comment.published }} by {{ comment.user }}</p>
+    <div class="row">
+        {% if comment_form %}
+        <h4>Post comment:</h4>
+        <br>
+        <div class="card shadow-sm col-12 p-3">
+            <form method="post">
+                {% csrf_token %}
+                {{ comment_form|crispy }}
+                <div class="text-right">
+                    <button class="btn btn-primary" type="submit">Post comment</button>
+                </div>
+            </form>
         </div>
-    {% endfor %}
-    {% else %}
-        <h4>No comments so far. Be the first one!</h4>
-    {% endif %}
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block script_block %}

@@ -51,7 +51,11 @@ $(document).ready(function(){
                 $('#average_rating').html(response.average_rating);
                 $('#latest_ratings').html('');
                 for(var rating of response.ratings){
-                    $('#latest_ratings').append('<div class="card">Rating: '+ rating.rating +'<br>User: '+ rating.user +'</div>');
+                    $('#latest_ratings').append(`<div class="card shadow-sm p-2 d-inline-block col-12 text-center">
+                                                    <h5>`+ rating.rating +`<i class='inline-star fa fa-star fa-fw'></i>
+                                                    <span class="text-secondary"> by `+ rating.user +`</span>
+                                                    </h5>
+                                                </div>`);
                 }
 
                 $('#rating_success').show();

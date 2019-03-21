@@ -68,7 +68,7 @@ def my_account(request):
             average_rating += website.average_rating()
         average_rating /= len(websites)
 
-    context_dict = {'websites': websites, 'average_rating': average_rating}
+    context_dict = {'websites': websites, 'average_rating': float("{0:.2f}".format(average_rating))}
     return render(request, 'webapp/my-account.html', context_dict)
 
 @login_required
