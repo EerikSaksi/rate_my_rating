@@ -1,23 +1,13 @@
-<!DOCTYPE html>
-
-
-<html>
 {% extends 'webapp/base.html' %}
-    {% block title_block %}
-        Home
-    {% endblock %}
+{% load staticfiles %}
 
+{% block title_block %}
+    Home
+{% endblock %}
 
+{% block body_block %}
 
-    {% block body_block %}
-
-        <div class="btn-group btn-group-lg" role="group" aria-label="slecter">
-            <button type="button" class="btn btn-secondary">Top</button>
-            <button type="button" class="btn btn-secondary">Trending</button>
-            <button type="button" class="btn btn-secondary">New</button>
-        </div>
-
-        <h3 class="indexTitle">Top Websites</h3>
+        <h1 class="indexTitle">Top Websites</h1>
 
         <div class="Top">
 
@@ -45,7 +35,7 @@
 
             <br>
 
-        <h3 class="indexTitle">Trending websites</h3>
+        <h1 class="indexTitle">Trending websites</h1>
 
         <div class="Trending">
 
@@ -74,7 +64,7 @@
 
         <br>
 
-        <h3 class="indexTitle">New websites</h3>
+        <h1 class="indexTitle">New websites</h1>
 
         <div class="New">
 
@@ -101,6 +91,4 @@
 
         </div>
 
-    {% endblock %}
-
-</html>
+{% endblock %}
