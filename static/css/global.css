@@ -43,3 +43,16 @@
 #information{
     text-align: left;
 }
+.card{
+    margin: 10px;
+}
+.Top, .Trending, .New{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.indexTitle{
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
