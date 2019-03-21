@@ -20,7 +20,7 @@
         </div>
 
         <div class="photo" id="displayOnClick" style="display:none">
-            <img id="MrPresident"src="{% static "Secretimage.jpg" %}" alt="Secretimage"/>
+            <img id="MrPresident"src="{% static "images/Secretimage.jpg" %}" alt="Secretimage"/>
         </div>
 
         <div class="description">
@@ -37,4 +37,8 @@
 
     </div>
 
+{% endblock %}
+
+{% block script_block %}
+    <script src="{% static "js/about.js" %}" type="text/javascript"></script>
 {% endblock %}
