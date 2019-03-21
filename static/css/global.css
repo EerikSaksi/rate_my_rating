@@ -39,7 +39,7 @@
 .rating-stars ul {
     list-style-type: none;
     padding: 0;
-  
+
     -moz-user-select: none;
     -webkit-user-select: none;
 }
@@ -48,20 +48,20 @@
     display: inline-block;
     cursor: pointer;
 }
-  
+
 .rating-stars li.star > i.fa {
     font-size: 2.5em;
     color: #ccc;
 }
-  
+
 .rating-stars li.star.hover > i.fa {
     color: #ffcc36;
 }
-  
+
 .rating-stars li.star.selected > i.fa {
     color: #ff912c;
 }
-  
+
 .signInUp{
     width: 33%;
     margin-left: 33%;
@@ -87,5 +87,8 @@
 .indexTitle{
     text-align: center;
     margin-top: 40px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+.footer{
+    background-color: #e3f2fd;
 }
