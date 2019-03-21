@@ -47,7 +47,7 @@ class RatingWebsite(models.Model):
                 avg_rating += rating.rating
             avg_rating /= float(len(ratings))
 
-        return avg_rating
+        return float("{0:.2f}".format(avg_rating))
 
 
 class Rating(models.Model):
