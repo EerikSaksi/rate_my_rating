@@ -43,7 +43,7 @@
         </div>
         <div class="col-lg-4 col-12">
             <div class="card shadow-sm p-4 text-center">
-                <h3>Average rating<h3>
+                <h3>Average rating</h3>
                 <h4><span id="average_rating">{{ website.average_rating }}</span>/5</h4>
                 <br>
                 
@@ -51,7 +51,7 @@
                 <div>You cannot rate your own website.</div>
                 {% elif user.is_authenticated %}
                 <div class='rating-stars text-center'>
-                    <ul id='stars'>
+                    <ul id='stars' class="pl-0">
                         <li class='star' title='Terrible' data-value='1'><i class='fa fa-star fa-fw'></i></li>
                         <li class='star' title='Bad' data-value='2'><i class='fa fa-star fa-fw'></i></li>
                         <li class='star' title='Average' data-value='3'><i class='fa fa-star fa-fw'></i></li>
@@ -74,10 +74,10 @@
                         </h5>
                     </div>
                 {% endfor %}
-                {% else %}
-                    <h4>No ratings so far. Be the first to rate this website!</h4>
-                {% endif %}
             </div>
+            {% else %}
+                <h4>No ratings so far. Be the first to rate this website!</h4>
+            {% endif %}
         </div>
     </div>
 
