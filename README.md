@@ -25,6 +25,11 @@ Used to simplify work with JavaScript and allow all Bootstrap features.
 
 https://jquery.com/
 
+### Font Awesome
+Used for html icons.
+
+https://fontawesome.com/
+
 ### Django Crispy Forms
 Used for the form design inside templates.
 

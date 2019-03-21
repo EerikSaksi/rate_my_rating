@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
             crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static "css/global.css" %}">
 
         <title>
@@ -26,20 +27,20 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 
                 <!--clickable buttons with login status check-->
-                <div class="navbar-nav">
+                <div class="navbar-nav mr-auto">
                     <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
                     <a class="nav-item nav-link" href="{% url 'websites' %}">All</a>
                     <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
                 </div>
 
-                <div class="searchBox" style="margin-left:5px;">
+                <div class="navbar-nav ml-auto mr-auto">
                     <form method="GET" action="{% url 'websites' %}" class="form-inline my-2 my-lg-0">
                         <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
 
-                <div class="navbar-nav">
+                <div class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
                         <a class="nav-item nav-link" href="{% url 'my_account' %}">My Account</a></li>
                         <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a></li>
@@ -66,7 +67,7 @@
         </div>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         {% block script_block %}
         {% endblock %}
    </body>

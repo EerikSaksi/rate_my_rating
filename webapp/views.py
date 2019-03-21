@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from webapp.models import RatingWebsite, Rating, Comment, UserProfile
-from webapp.forms import UserForm, UserProfileForm, WebsiteForm, RatingForm, CommentForm, UserEditForm
+from webapp.forms import UserForm, UserProfileForm, WebsiteForm, CommentForm, UserEditForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.http import JsonResponse
+from django.utils.timezone import now
 
 def index(request):
     # 5 websites with best average rating
@@ -135,28 +137,16 @@ def website_detail(request, website_slug):
     ratings = Rating.objects.filter(website=website).order_by('-published')[:5]
     comments = Comment.objects.filter(website=website).order_by('-published')
 
+    current_rating = 0
+
     if request.user.is_authenticated:
         # try to get the instance of user's rating for this website
         try:
-            current_rating = Rating.objects.get(user=request.user, website=website)
+            current_rating = Rating.objects.get(user=request.user, website=website).rating
         except Rating.DoesNotExist:
-            current_rating = None
+            pass
 
     if request.method == 'POST' and request.user.is_authenticated:
-        rating_form = RatingForm(request.POST, instance=current_rating)
-        if rating_form.is_valid():
-            rating = rating_form.save(commit=False)
-            rating.user = request.user
-            rating.website = website
-
-            if rating.user != rating.website.owner:
-                rating.save()
-                messages.success(request, 'Rating saved.')
-            else:
-                messages.error(request, 'You cannot rate your own website.')
-
-            return redirect('website_detail', website_slug)
-
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
@@ -168,14 +158,12 @@ def website_detail(request, website_slug):
             return redirect('website_detail', website_slug)
 
     elif request.user.is_authenticated:
-        rating_form = RatingForm(instance=current_rating)
         comment_form = CommentForm()
     else:
-        rating_form = None
         comment_form = None
 
     context_dict = {'website': website, 'ratings': ratings, 'comments': comments,
-                    'rating_form': rating_form, 'comment_form': comment_form}
+                    'current_rating': current_rating, 'comment_form': comment_form}
     return render(request, 'webapp/website_details.html', context_dict)
 
 @login_required
@@ -194,3 +182,25 @@ def website_edit(request, website_slug):
 
     context_dict = {'website': website, 'form': form}
     return render(request, 'webapp/website_edit.html', context_dict)
+
+@login_required
+def website_update_rating(request, website_slug):
+    website = get_object_or_404(RatingWebsite, slug=website_slug)
+    if request.method == 'POST':
+        new_rating = request.POST.get('rating', None)
+
+        if new_rating is not None:
+            if request.user != website.owner:
+                rating = Rating.objects.get_or_create(website=website, user=request.user)[0]
+                rating.rating = new_rating
+                rating.published = now()
+                rating.save()
+
+                response = {'message': 'success', 'average_rating': website.average_rating(), 'ratings': []}
+                ratings = Rating.objects.filter(website=website).order_by('-published')[:5]
+                for rating in ratings:
+                    response['ratings'].append({'rating': rating.rating, 'user': rating.user.username})
+                return JsonResponse(response)
+    return JsonResponse({'message': 'error'})
+
+

@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^websites/$', views.show_websites, name='websites'),
     url(r'^websites/(?P<website_slug>[\w\-]+)/$', views.website_detail, name='website_detail'),
     url(r'^websites/(?P<website_slug>[\w\-]+)/edit/$', views.website_edit, name='website_edit'),
+    url(r'^websites/(?P<website_slug>[\w\-]+)/update-rating$', views.website_update_rating, name='website_update_rating'),
 ]
