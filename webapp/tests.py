@@ -34,7 +34,21 @@ class ServerResponseTestCase(TestCase):
 
     def test_index_contains_all_links(self):
         response = self.client.get(reverse('index'))
-        self.assertIn("href="/"Home")
+        self.assertIn("href=\"/\">Home",response.content.decode())
+
+    def test_proper_404_response(self):
+        #the name is over 30 characters, which is longer than the maximum length, so should be 404
+        try:
+            resolve("websites/0123456789012345678901234567890123456789")
+        except:
+            # if there is a url that doesn't map then fail the test
+            self.assertTrue(True)
+        else:
+            self.assertTrue(False)
+
+    
+
+
 
 
 
